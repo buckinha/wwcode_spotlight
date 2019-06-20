@@ -6,6 +6,7 @@ import tempfile
 from sklearn.neural_network import MLPClassifier
 import pickle
 import time
+from tqdm import tqdm
 
 
 BUCKET = 'wwcode-spotlight'
@@ -38,6 +39,10 @@ def download_file_from_s3(s3_fname, dst):
     s3 = boto3.client('s3')
     s3.download_file(BUCKET, s3_fname, dst)
 
+
+def cute_progress_bar(seconds):
+    for i in tqdm(range(seconds)):
+        time.sleep(1)
 
 def process_data():
     """
@@ -107,8 +112,8 @@ def score_model():
 
 
 def build_model_longer():
-    time.sleep(30)
     build_model()
+    cute_progress_bar(seconds=60)
 
 
 def test_do_all():
